@@ -1,0 +1,9 @@
+﻿@model List<MarketplaceProject.Domain.Entities.Product>
+@{
+    ViewData["Title"] = "Get Products";
+
+}
+@foreach (var product in Model){
+    <p>@product.Name</p>
+    <p>@product.Description</p>
+}
