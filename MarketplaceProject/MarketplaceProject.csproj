@@ -19,8 +19,4 @@
     <ProjectReference Include="..\MarketplaceProject.Domain\MarketplaceProject.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="testCommit\" />
-  </ItemGroup>
-
 </Project>
