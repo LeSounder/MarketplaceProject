@@ -12,9 +12,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.13" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Marketplace.Service\Marketplace.Service.csproj" />
     <ProjectReference Include="..\MarketplaceProject.DAL\MarketplaceProject.DAL.csproj" />
     <ProjectReference Include="..\MarketplaceProject.Domain\MarketplaceProject.Domain.csproj" />
   </ItemGroup>

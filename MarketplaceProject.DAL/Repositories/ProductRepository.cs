@@ -1,6 +1,6 @@
 ﻿using MarketplaceProject.DAL.Interfaces;
 using MarketplaceProject.Domain.Entities;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace MarketplaceProject.DAL.Repositories
 {
@@ -13,27 +13,40 @@ namespace MarketplaceProject.DAL.Repositories
         }
         public bool Create(Product entity)
         {
-            throw new NotImplementedException();
-        }
+            _db.Product.Add(entity);
+            _db.SaveChanges();
 
-        public bool Delete(Product entity)
+            return true;
+        }
+        public Product Get(long id)
         {
-            throw new NotImplementedException();
+            return _db.Product.First(x => x.Id == id);
         }
-
-        public Product Get(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Product GetByName(string name)
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<Product> Select()
         {
             return _db.Product.ToList();
         }
+
+        public bool Delete(Product entity)
+        {
+            _db.Product.Remove(entity);
+            _db.SaveChangesAsync();
+
+            return true;
+        }
+
+        public Product GetByName(string name)
+        {
+            return _db.Product.First(x => x.Name == name);
+        }
+
+        public Product Update(Product entity)
+        {
+            _db.Product.Update(entity);
+            _db.SaveChanges();
+
+            return entity;
+        }
+        
     }
 }

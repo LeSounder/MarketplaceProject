@@ -1,12 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System;
-using MarketplaceProject.Domain.Enum;
+﻿
 
-namespace MarketplaceProject.Domain.Entities
+using MarketplaceProject.Domain.Enum;
+using System.ComponentModel.DataAnnotations;
+
+namespace MarketplaceProject.Domain.ViewModels.Product
 {
-    public class Product
+    public class ProductViewModel
     {
-        [Key]
         public long Id { get; set; }
         [Required]
         public string Name { get; set; }
@@ -14,6 +14,5 @@ namespace MarketplaceProject.Domain.Entities
         public decimal Price { get; set; }
         public string? Description { get; set; }
         public DateTime DateCreate { get; set; }
-        
     }
 }

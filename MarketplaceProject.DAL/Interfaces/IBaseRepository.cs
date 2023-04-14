@@ -3,9 +3,9 @@
     public interface IBaseRepository<T>
     {
         bool Create(T entity);
-        T Get(int id);
+        T Get(long id);
         IEnumerable<T> Select();
         bool Delete(T entity);
-
+        T Update(T entity);
     }
 }
