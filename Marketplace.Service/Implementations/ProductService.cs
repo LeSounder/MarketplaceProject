@@ -86,7 +86,6 @@ namespace Marketplace.Service.Implementations
                     Category = productViewModel.Category,
                     Price = productViewModel.Price,
                     Description = productViewModel.Description,
-                    DateCreate = productViewModel.DateCreate,
                     
                 };
 
