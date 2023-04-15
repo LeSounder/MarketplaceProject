@@ -94,3 +94,8 @@ input[type="submit"]:active {
   display: flex;
   justify-content: center;
 }
+.submit-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 18%;
+}
