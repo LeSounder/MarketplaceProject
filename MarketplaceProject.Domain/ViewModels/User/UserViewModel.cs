@@ -16,9 +16,6 @@ namespace MarketplaceProject.Domain.ViewModels.User
         [Display(Name = "Логин")]
         public string? UserName { get; set; }
 
-        [Required(ErrorMessage = "Укажите email")]
-        [Display(Name = "Email")]
-        public string? Email { get; set; }
 
         [Required(ErrorMessage = "Укажите пароль")]
         [Display(Name = "Пароль")]
