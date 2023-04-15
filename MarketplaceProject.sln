@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketplaceProject.DAL", "M
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service", "Service", "{893DBFC0-E63D-4536-8155-77E5FBA47F22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marketplace.Service", "Marketplace.Service\Marketplace.Service.csproj", "{097EA7D8-938D-48B4-82B2-B7A3F8D734F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marketplace.Service", "Marketplace.Service\Marketplace.Service.csproj", "{097EA7D8-938D-48B4-82B2-B7A3F8D734F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

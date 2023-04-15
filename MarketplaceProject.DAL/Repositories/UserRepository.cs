@@ -3,40 +3,39 @@ using MarketplaceProject.Domain.Entities;
 
 namespace MarketplaceProject.DAL.Repositories
 {
-    public class ProductRepository : IBaseRepository<Product>
+    public class UserRepository : IBaseRepository<User>
     {
         private readonly ApplicationDbContext _db;
-        public ProductRepository(ApplicationDbContext db)
+        public UserRepository(ApplicationDbContext db)
         {
             _db = db;
         }
-        public bool Create(Product entity)
+        public bool Create(User entity)
         {
-            _db.Product.Add(entity);
+            _db.Users.Add(entity);
             _db.SaveChanges();
 
             return true;
         }
-        public IQueryable<Product> Select()
+        public IQueryable<User> Select()
         {
-            return _db.Product;
+            return _db.Users;
         }
 
-        public bool Delete(Product entity)
+        public bool Delete(User entity)
         {
-            _db.Product.Remove(entity);
+            _db.Users.Remove(entity);
             _db.SaveChangesAsync();
 
             return true;
         }
 
-        public Product Update(Product entity)
+        public User Update(User entity)
         {
-            _db.Product.Update(entity);
+            _db.Users.Update(entity);
             _db.SaveChanges();
 
             return entity;
         }
-        
     }
 }

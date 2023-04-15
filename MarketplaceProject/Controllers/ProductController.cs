@@ -59,11 +59,11 @@ namespace MarketplaceProject.Controllers
             {
                 if (productViewModel.Id == 0)
                 {
-                    _productService.CreateProduct(productViewModel);
+                    _productService.Create(productViewModel);
                 }
                 else
                 {
-                    _productService.EditProduct(productViewModel);
+                    _productService.Edit(productViewModel);
                 }
             }
 

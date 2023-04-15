@@ -4,191 +4,214 @@ using MarketplaceProject.Domain.Entities;
 using MarketplaceProject.Domain.Response;
 using MarketplaceProject.Domain.Enum;
 using MarketplaceProject.Domain.ViewModels.Product;
-using System;
+using Microsoft.EntityFrameworkCore;
 
 namespace Marketplace.Service.Implementations
 {
     public class ProductService : IProductService
     {
-        private readonly IProductRepository _productRepository;
-        public ProductService(IProductRepository productRepository)
+        private readonly IBaseRepository<Product> _productRepository;
+        public ProductService(IBaseRepository<Product> productRepository)
         {
             _productRepository = productRepository;
         }
 
-
-
-        public IBaseResponse<Product> GetProduct(long id)
+        public IBaseResponse<ProductViewModel> GetProduct(long id)
         {
-            var baseResponse = new BaseResponse<Product>();
-
             try
             {
-                var product = _productRepository.Get(id);
+                var product = _productRepository.Select().FirstOrDefault(x => x.Id == id);
                 if (product == null)
                 {
-                    baseResponse.Description = "Element not found";
-                    baseResponse.statusCode = StatusCode.NotFound;
-                    return baseResponse;
+                    return new BaseResponse<ProductViewModel>()
+                    {
+                        Description = "Элемент",
+                        StatusCode = StatusCode.NotFound
+                    };
                 }
 
-                baseResponse.Data = product;
-                return baseResponse;
-            }
-            catch (Exception exception)
-            {
-                return new BaseResponse<Product>()
+                var data = new ProductViewModel()
                 {
-                    Description = $"[GetProduct] : {exception.Message}",
-                    statusCode = StatusCode.InternalServerError
-                };
-            }
-        }
-        public IBaseResponse<bool> DeleteProduct(long id)
-        {
-            var baseResponse = new BaseResponse<bool>();
-
-            try
-            {
-                var product = _productRepository.Get(id);
-
-                if (product == null)
-                {
-                    baseResponse.Description = "Element not found";
-                    baseResponse.statusCode = StatusCode.NotFound;
-
-                    return baseResponse;
-                }
-
-                _productRepository.Delete(product);
-                return baseResponse;
-
-            }
-            catch (Exception exception)
-            {
-                return new BaseResponse<bool>()
-                {
-                    Description = $"[DeleteProduct] : {exception.Message}",
-                    statusCode = StatusCode.InternalServerError
-                };
-            }
-        }
-
-        public IBaseResponse<ProductViewModel> CreateProduct(ProductViewModel productViewModel)
-        {
-            var baseResponse = new BaseResponse<ProductViewModel>();
-
-            try
-            {
-                var product = new Product()
-                {
-                    Name = productViewModel.Name,
-                    Category = productViewModel.Category,
-                    Price = productViewModel.Price,
-                    Description = productViewModel.Description,
-                    
+                    Name = product.Name,
+                    Category = product.Category,
+                    Price = product.Price,
+                    Description = product.Description,
                 };
 
-                _productRepository.Create(product);
-
+                return new BaseResponse<ProductViewModel>()
+                {
+                    StatusCode = StatusCode.OK,
+                    Data = data
+                };
             }
-            catch (Exception exception)
+            catch (Exception ex)
             {
                 return new BaseResponse<ProductViewModel>()
                 {
-                    Description = $"[CreateProduct] : {exception.Message}",
-                    statusCode = StatusCode.InternalServerError
+                    Description = $"[GetProduct] : {ex.Message}",
+                    StatusCode = StatusCode.InternalServerError
                 };
             }
-
-            return baseResponse;
         }
 
-        public IBaseResponse<Product> GetProductByName(string name)
+        public BaseResponse<Dictionary<long, string>> GetProduct(string term)
         {
-            var baseResponse = new BaseResponse<Product>();
-
+            var baseResponse = new BaseResponse<Dictionary<long, string>>();
             try
             {
-                var product = _productRepository.GetByName(name);
-                if (product == null)
-                {
-                    baseResponse.Description = "Element not found";
-                    baseResponse.statusCode = StatusCode.NotFound;
-                    return baseResponse;
-                }
+                var products = _productRepository.Select()
+                    .Select(x => new ProductViewModel()
+                    {
+                        Id = x.Id,
+                        Name = x.Name,
+                        Category = x.Category,
+                        Price = x.Price,
+                        Description = x.Description,
+                    })
+                    .Where(x => EF.Functions.Like(x.Name, $"%{term}%"))
+                    .ToDictionary(x => x.Id, t => t.Name);
 
-                baseResponse.Data = product;
+                baseResponse.Data = products;
                 return baseResponse;
             }
-            catch (Exception exception)
+            catch (Exception ex)
+            {
+                return new BaseResponse<Dictionary<long, string>>()
+                {
+                    Description = ex.Message,
+                    StatusCode = StatusCode.InternalServerError
+                };
+            }
+        }
+
+        public IBaseResponse<Product> Create(ProductViewModel productViewModel)
+        {
+            try
+            {
+                var product = new Product()
+                {    
+                    Name = productViewModel.Name,
+                    Category = (Category)Convert.ToInt32(productViewModel.Category),
+                    Price = productViewModel.Price,
+                    Description = productViewModel.Description,
+
+                }; 
+                _productRepository.Create(product);
+
+                return new BaseResponse<Product>()
+                {
+                    StatusCode = StatusCode.OK,
+                    Data = product
+                };
+            }
+            catch (Exception ex)
             {
                 return new BaseResponse<Product>()
                 {
-                    Description = $"[GetProduct] : {exception.Message}",
-                    statusCode = StatusCode.InternalServerError
+                    Description = $"[Create] : {ex.Message}",
+                    StatusCode = StatusCode.InternalServerError
                 };
             }
         }
 
-        public IBaseResponse<Product> EditProduct(ProductViewModel productViewModel)
+        public IBaseResponse<bool> DeleteProduct(long id)
         {
-            var baseResponse = new BaseResponse<Product>();
             try
             {
-                var product = _productRepository.Get(productViewModel.Id);
+                var product = _productRepository.Select().FirstOrDefault(x => x.Id == id);
                 if (product == null)
                 {
-                    baseResponse.statusCode = StatusCode.NotFound;
-                    baseResponse.Description = "Element not found";
-
-                    return baseResponse;
+                    return new BaseResponse<bool>()
+                    {
+                        Description = "Элемент не найден",
+                        StatusCode = StatusCode.NotFound,
+                        Data = false
+                    };
                 }
 
-                product.Description = productViewModel.Description;
+                _productRepository.Delete(product);
+
+                return new BaseResponse<bool>()
+                {
+                    Data = true,
+                    StatusCode = StatusCode.OK
+                };
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<bool>()
+                {
+                    Description = $"[DeleteProduct] : {ex.Message}",
+                    StatusCode = StatusCode.InternalServerError
+                };
+            }
+        }
+
+        public IBaseResponse<Product> Edit(ProductViewModel productViewModel)
+        {
+            try
+            {
+                var product = _productRepository.Select().FirstOrDefault(x => x.Id == productViewModel.Id);
+                if (product == null)
+                {
+                    return new BaseResponse<Product>()
+                    {
+                        Description = "",
+                        StatusCode = StatusCode.NotFound
+                    };
+                }
+
                 product.Name = productViewModel.Name;
+                product.Description = productViewModel.Description;
+                product.Price = productViewModel.Price;
 
                 _productRepository.Update(product);
 
-                return baseResponse;
+
+                return new BaseResponse<Product>()
+                {
+                    Data = product,
+                    StatusCode = StatusCode.OK,
+                };
             }
-            catch (Exception exception)
+            catch (Exception ex)
             {
                 return new BaseResponse<Product>()
                 {
-                    Description = $"[EditProduct] : {exception.Message}",
-                    statusCode = StatusCode.InternalServerError
+                    Description = $"[Edit] : {ex.Message}",
+                    StatusCode = StatusCode.InternalServerError
                 };
             }
         }
 
-        public IBaseResponse<IEnumerable<Product>> GetProducts()
+        public IBaseResponse<List<Product>> GetProducts()
         {
-            var baseResponse = new BaseResponse<IEnumerable<Product>>();
             try
             {
-                var products = _productRepository.Select();
-
-                if (products.Count() == 0)
+                var products = _productRepository.Select().ToList();
+                if (!products.Any())
                 {
-                    baseResponse.Description = "Elements not found";
-                    baseResponse.statusCode = StatusCode.NotFound;
+                    return new BaseResponse<List<Product>>()
+                    {
+                        Description = "Найдено 0 элементов",
+                        StatusCode = StatusCode.OK
+                    };
                 }
-
-                baseResponse.Data = products;
-                baseResponse.statusCode = StatusCode.OK;
-
-                return baseResponse;
-            }
-            catch (Exception exception)
-            {
-                return new BaseResponse<IEnumerable<Product>>()
+                
+                return new BaseResponse<List<Product>>()
                 {
-                    Description = $"[GetProducts] : {exception.Message}",
-                    statusCode = StatusCode.InternalServerError
-                    
+                    Data = products,
+                    StatusCode = StatusCode.OK
                 };
             }
-        }   
+            catch (Exception ex)
+            {
+                return new BaseResponse<List<Product>>()
+                {
+                    Description = $"[GetProducts] : {ex.Message}",
+                    StatusCode = StatusCode.InternalServerError
+                };
+            }
+        }
     }
 }
