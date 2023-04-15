@@ -17,7 +17,8 @@ namespace MarketplaceProject.DAL.Migrations
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Category = table.Column<int>(type: "INTEGER", nullable: false),
                     Price = table.Column<decimal>(type: "TEXT", nullable: false),
-                    Description = table.Column<string>(type: "TEXT", nullable: true)
+                    Description = table.Column<string>(type: "TEXT", nullable: true),
+                    ImgPath = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {

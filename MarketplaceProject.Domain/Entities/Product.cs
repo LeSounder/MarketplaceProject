@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System;
 using MarketplaceProject.Domain.Enum;
 
 namespace MarketplaceProject.Domain.Entities
@@ -13,6 +12,8 @@ namespace MarketplaceProject.Domain.Entities
         public Category Category { get; set; }
         public decimal Price { get; set; }
         public string? Description { get; set; }
+        public string ImgPath { get; set; }
         
+
     }
 }

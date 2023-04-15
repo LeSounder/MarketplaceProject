@@ -21,4 +21,8 @@
     <ProjectReference Include="..\MarketplaceProject.Domain\MarketplaceProject.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\img\" />
+  </ItemGroup>
+
 </Project>

@@ -1,11 +1,66 @@
-﻿@model List<MarketplaceProject.Domain.Entities.Product>
+﻿<link rel="stylesheet" href="~/css/cardStyle.css" asp-append-version="true" />
+
+@model List<MarketplaceProject.Domain.Entities.Product>
 @{
     ViewData["Title"] = "Get Products";
-
+    Layout = "_Layout";
 }
+<div>
 @foreach (var product in Model){
-    <p>@product.Name</p>
-    <p>@product.Category</p>
-    <p>@product.Price</p>
-    <p>@product.Description</p>
+        <div class="content-container" style="display:inline-block;">
+            <div class="product-item">
+                <div class="image-container">
+                <img src="~/img/@product.ImgPath">
+                </div>
+                <div class="product-list">
+                    <h3>@product.Name</h3>
+                    <span class="price">@product.Price Руб</span>
+                    <a href="" class="button">В корзину</a>
+                </div>
+            </div>
+        </div>
+}
+</div>
+
+@section pageScripts {
+
+    <script src="~/js/modal.js"></script>
+    <script>
+        let modal = $('#modalWhButtons');
+
+        $('#compareBtnId').on('click', function () {
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("Compare")',
+                success: function (response) {
+                    $('.modal-dialog').addClass("modal-lg");
+                    modal.find(".modal-body").html(response);
+                    modal.modal('show')
+                }
+            });
+        });
+
+        $(".btn-close").click(function () {
+            modal.modal('hide');
+        });
+
+        $('#addCarId').on('click', function () {
+            $.ajax({
+                type: 'GET',
+                url: '/Car/Save',
+                success: function (response) {
+                    $('.modal-dialog').removeClass("modal-lg");
+                    modal.find(".modal-body").html(response);
+                    modal.modal('show')
+                },
+                failure: function () {
+                    modal.modal('hide')
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+        });
+
+    </script>
 }
