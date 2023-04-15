@@ -30,7 +30,6 @@ namespace MarketplaceProject.Controllers
                     HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(response.Data));
                     return RedirectToAction("Index", "Home");
                 }
-                ModelState.AddModelError("", response.Description);
             }
             return View(registerViewModel);
         }
@@ -49,7 +48,6 @@ namespace MarketplaceProject.Controllers
                     HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(response.Data));
                     return RedirectToAction("Index", "Home");
                 }
-                ModelState.AddModelError("", response.Description);
             }
             return View(loginViewModel);
         }

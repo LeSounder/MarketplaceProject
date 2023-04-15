@@ -1,17 +1,20 @@
-﻿<link rel="stylesheet" href="~/css/registerStyle.css" asp-append-version="true" />
+﻿@model MarketplaceProject.Domain.ViewModels.Account.RegisterViewModel
+@{
+    Layout = "_Layout";
+    ViewBag.Title = "Регистрация";
+}
+
+<link rel="stylesheet" href="~/css/registerStyle.css" asp-append-version="true" />
 
 <div id="login-box">
     <div class="left">
         <h1>Регистрация</h1>
-
-        <input type="text" name="username" placeholder="Имя пользователя" />
-        <input type="text" name="email" placeholder="E-mail" />
-        <input type="password" name="password" placeholder="Пароль" />
-        <input type="password" name="password2" placeholder="Подтвердите пароль" />
-        <div class="button">
+        <form method="post" asp-controller="Account" asp-action="Register">
+            <div asp-validation-summary="All" style="font-size:23px; font-family:Impact" class="text-danger text-center"></div>
+            <input asp-for="UserName" type="text" name="username" placeholder="Имя пользователя" />
+            <input asp-for="Password" type="password" name="password" placeholder="Пароль" />
+            <input asp-for="PasswordConfirmed" type="password" name="passwordconfirmed" placeholder="Подтвердите пароль" />
             <input type="submit" name="signup_submit" value="Зарегистрироваться" />
-            <div>
-            </div>
-            </div>
-            </div>
-            </div>
+        </form>
+    </div>
+</div>

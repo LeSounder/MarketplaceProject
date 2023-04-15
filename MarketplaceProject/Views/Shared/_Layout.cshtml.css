@@ -1,4 +1,5 @@
-﻿a.navbar-brand {
+﻿
+a.navbar-brand {
   white-space: normal;
   text-align: center;
   word-break: break-all;
@@ -6,6 +7,19 @@
 
 a {
   color: #0077cc;
+}
+input {
+    border: none;
+}
+.log-buttons {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+.logout-button {
+    width: 90px;
+    height: 27px;
+    margin-bottom: 0px;
 }
 
 .btn-primary {

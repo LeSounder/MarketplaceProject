@@ -1,13 +1,14 @@
-﻿<link rel="stylesheet" href="~/css/loginStyle.css" asp-append-version="true" />
+﻿@model MarketplaceProject.Domain.ViewModels.Account.LoginViewModel
+
+<link rel="stylesheet" href="~/css/loginStyle.css" asp-append-version="true" />
 
 <div id="login-box">
     <div class="left">
         <h1>Вход</h1>
-
-        <input type="text" name="username" placeholder="Имя пользователя" />
-        <input type="password" name="password" placeholder="Пароль" />
-        <div class="button">
+        <form autocomplete="on" method="post" asp-controller="Account" asp-action="Login">
+            <input asp-for="UserName" type="text" name="username" placeholder="Имя пользователя" />
+            <input asp-for="Password" type="password" name="password" placeholder="Пароль" />
             <input type="submit" name="signup_submit" value="Войти" />
-        </div>
+        </form>
     </div>
 </div>

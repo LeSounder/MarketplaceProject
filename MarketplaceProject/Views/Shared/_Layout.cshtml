@@ -24,12 +24,20 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="GetProducts">Products</a>
                         </li>
                     </ul>
-
-                    <ul class="navbar-nav">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Вход</a>
-                        <li class="nav-link text-dark">|</li>
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Регистрация</a>
-                    </ul>
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <ul class="navbar-nav">
+                            <a class="nav-link text-dark log-button" asp-area="" asp-controller="Account" asp-action="Login">Вход</a>
+                            <li class="nav-link text-dark">|</li>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Регистрация</a>
+                        </ul>
+                    }
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <form method="post" class="nav-link text-dark" asp-controller="Account" asp-action="Logout">
+                            <input style="font-family: 'Roboto', sans-serif;" class="logout-button" type="submit" value="Выход" />
+                        </form>
+                    }
                 </div>
             </div>
         </nav>

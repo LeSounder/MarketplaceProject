@@ -6,9 +6,9 @@ namespace Marketplace.Service.Interfaces
 {
     public interface IAccountService
     {
-        BaseResponse<ClaimsIdentity> Register(RegisterViewModel model);
+        BaseResponse<ClaimsIdentity> Register(RegisterViewModel registerViewModel);
 
-        BaseResponse<ClaimsIdentity> Login(LoginViewModel model);
+        BaseResponse<ClaimsIdentity> Login(LoginViewModel loginViewModel);
 
     }
 }
