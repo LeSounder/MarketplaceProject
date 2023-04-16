@@ -1,5 +1,5 @@
 # MarketplaceProject
-MarketplaceProject.DAL - слой взаимодействия с базой данных:
+MarketplaceProject.DAL - слой взаимодействия с базой данных
   Migrations - миграции EF
   Interfaces - интерфейсы репозиториев
   Repositories - классы, реализующий паттерн "Репозиторий"
